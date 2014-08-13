@@ -1,0 +1,42 @@
+Name         : yaml-cpp
+Version      : 0.5.1
+Release      : 1
+Group        : Development/Libraries
+License      : MIT
+Summary      : A YAML parser and emitter for C++
+Description  : |
+  yaml-cpp is a YAML parser and emitter in C++ written around the YAML 1.2 spec.
+URL          : http://code.google.com/p/yaml-cpp/
+SetupOptions : -q -n src
+
+Sources:
+    - "%{name}-%{version}.tar.xz"
+
+Configure: cmake
+Builder: make
+ConfigOptions:
+    - -DCMAKE_BUILD_TYPE=RelWithDebInfo 
+    - -DYAML_CPP_BUILD_TOOLS=0
+
+PkgBR:
+    - cmake
+    - boost-devel
+
+Files:
+    - "%doc license.txt"
+    - "%{_libdir}/*.so.*"
+
+SubPackages:
+    - Name: devel
+      Group: Development/Libraries
+      Summary: Development files for %{name}
+      Description: |
+        The %{name}-devel package contains the files necessary to develop applications
+        that use %{name}.
+      Requires:
+          - boost-devel
+          - pkgconfig
+      Files:
+          - "%{_includedir}/yaml-cpp/"
+          - "%{_libdir}/*.so"
+          - "%{_libdir}/pkgconfig/*.pc"
